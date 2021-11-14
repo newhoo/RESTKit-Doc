@@ -1,109 +1,105 @@
 # RESTKit
 
-[简体中文](./README.zh_CN.md)
+[RESTKit](https://plugins.jetbrains.com/plugin/14723-restkit) 是一套功能强大的 Restful 服务开发辅助工具集。
 
-[RESTKit](https://plugins.jetbrains.com/plugin/14723-restkit) is a powerful toolkit for restful services development.
+本插件致力于提升开发效率之作，只有实用常用的功能。源于最初版本的RestfulToolkit，同时加入Postman的常用功能，丰富且完善的功能能极大地提高Idea开发的效率。免费分享给大家使用，不用于商业用途。个人之力，难免有疏忽，如有使用问题，请反馈于我。
 
-This plugin is committed to enhancing development efficiency with useful features. From the initial RestfulToolkit and joined common functions of Postman, rich and complete features can greatly improve the efficiency of IDEA development. Free to share with everyone, not for commercial purposes. If you find any problems, please give me feedback.
+如果你觉得本插件不错，请赏个好评吧，同时也欢迎提供宝贵的建议。🌟 Star | [Ratings](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
 
-If this plugin helps, please **🌟 Star** and [Rating](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)! If you have any good idea, please let me know.
+## 功能
+- Restful服务自动扫描与展示
+    - 原生Search Everywhere支持restful URL搜索 ( <kbd>Ctrl \\</kbd> or <kbd>Ctrl Alt N</kbd> )
+    - 窗口显示 Services tree
+    - URL和Method相互跳转
+- 强大好用的HTTP请求工具：
+    - 自定义参数格式，支持占位符变量，JSON自动格式化
+    - 环境变量：支持变量使用、管理及迁移，提供内置函数和脚本函数
+    - 全局请求头：支持和环境变量一起使用，提供内置函数和脚本函数
+    - 参数库：支持Headers、Params、Body参数展示、保存和删除
+    - 请求脚本：支持前置/后置请求脚本
+    - HTTP报文展示
+- 日志保存：支持保存HTTP报文格式的请求日志；
+- 插件扩展：用户可实现其他框架的接口扫描；
+- 语言和框架：
+  - 默认支持 Spring 体系 (Spring MVC / Spring Boot)
+  - 支持 Java 和 Kotlin 语言
+- 其他:
+    - Java类生成JSON
 
 
-## Features
-- Restful service automatic scanning and display.
-  - Support searching service in Native Search Everywhere. ( use: <kbd>Ctrl \\</kbd> or <kbd>Ctrl Alt N</kbd> )
-  - Show restful service structure in tool window.
-  - Service and Method jump to each other.
-- Powerful HTTP client：
-  - Custom parameter format, support placeholder variable, formatted JSON.
-  - Environment variable：define/manage/use/export/import, support preset function and script function.
-  - Global header：can use with Environment, also support preset function and script function.
-  - Parameter library：support display/save/delete in Headers/Params/Body tab.
-  - Request script：support pre-request and post-script script.
-  - HTTP packet display.
-- Request log：save request log whit HTTP packet format.
-- Plugin extension：through this, you can scan restful service in other framework.
-- Language & Framework：
-  - Support Spring MVC / SpringBoot by default.
-  - Support Java and Kotlin.
-- Other:
-  - Java class convert to JSON.
-  
- 
-## Install
-- **Using IDE plugin system**
+## 安装
+- **插件市场安装**
 
-Recommended <kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Browse repositories...</kbd> > <kbd>find "RESTKit"</kbd> > <kbd>Install Plugin</kbd>
+推荐 <kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Browse repositories...</kbd> > <kbd>输入"RESTKit"</kbd> > <kbd>点击Install</kbd>
 
-- **Local Install**
+- **本地安装**
 
-Download plugin form <kbd>distributions/RESTKit-x.x.x.zip</kbd>, then <kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Install Plugin from Disk...</kbd>
+从仓库下载<kbd>distributions/RESTKit-x.x.x.zip</kbd>, 然后在本地Idea安装 <kbd>Preferences(Settings)</kbd> > <kbd>Plugins</kbd> > <kbd>Install Plugin from Disk...</kbd>
 
-## Usage
+## 使用
 
 ### RESTKit Tool window
-Open project, find and open RESTKit at right window. RESTKit is composed of four parts: **Toolbar**、**service tree**、**http client**.
+打开项目，找到窗口右边的RESTKit，打开。窗口主要由 **Toolbar**、**service tree**、**http client** 构成。以下分别介绍：
 
 ![tool window](images/tool_window.png)
 
 #### Toolbar
-- Refresh: refresh service list when updated.
-- Search: search service in search everywhere.
-- Filter: filter by HTTP method.
-- Scan library: whether scan with library.
-- Setting：open setting view.
+- 刷新：如果没有找到更新的api，点击刷新图标
+- 搜索：打开search everywhere搜索service url
+- 过滤：按照http method过滤
+- 扫描依赖：选中时可搜索依赖包中的restful services
+- 设置：可打开插件配置和环境变量配置
 
 ![](images/toolbar.png)
 
 #### service tree
-- Display services by module.
-- Navigate to source when double-clicking in the service list.
-- Show context menu when right clicking.
+- 按模块展示项目中搜索到的restful services，支持idea自身的输入搜索
+- 在URL上双击，可跳转到源码的Method
+- 在URL上右键，展示右键菜单
 
 ![](images/tree.png)
 
 #### HTTP client
-- Environment: select the environment variable that has been added. preview current environment when hovering.
-- Method: http method, needn't select manually.
-- URL: http uri, needn't input manually. support placeholder, e.g. `{{baseUrl}}`.
-- Send: send http request one time after clicking.
-- Headers tab: request header, needn't input manually. support placeholder and parameter library.
-- Params tab: include query/path/form parameter, needn't input manually. support placeholder and parameter library.
-- Body tab: body for POST/PUT/PATCH/DELETE, needn't input manually.
-- Response tab: display response result. The content may be normal return, exception, or script return by the request script.
-- Info tab: display request with http packet format.
+- 环境变量：下拉选择已添加的环境变量组，不存在时会跳转到环境变量配置页面。鼠标Hover时可预览当前环境变量
+- Method：http method，一般不需要手动选择
+- URL：http请求的uri，一般不需要手动输入。支持占位符，默认生成`{{baseUrl}}`
+- Send：点击发送一次http请求
+- Headers tab: 请求头参数，一般不需要手动输入。支持占位符和参数库操作。
+- Params tab: 包括uri路径参数、查询参数和form参数，一般不需要手动输入。支持占位符和参数库操作。
+- Body tab: POST/PUT/PATCH/DELETE对应的body参数，一般不需要手动输入。
+- Response tab: 展示http请求返回的结果。内容可能是正常返回、异常返回、后置请求脚本返回结果。
+- Info tab: 展示http请求报文。
 
 ![](images/http_client.png)
 
 
-### Search URL
-- Search everywhere: <kbd>Double Shift</kbd> or click **search icon**。
-- When selecting item in search everywhere(URL tab), clicking <kbd>Option</kbd> or <kbd>Alt</kbd> helps to jump to service tree item.
-- Service tree: support input search when focus on service tree.
+### 搜索URL
+- search everywhere: <kbd>Double Shift</kbd> or click **search icon**。
+- 在search everywhere中选中具体的URL后，按<kbd>Option</kbd>或<kbd>Alt</kbd>，可跳转到service tree中对应的URL。
+- service tree：支持idea自身的输入搜索
 
 ![search everywhere](images/search_everywhere.png)
 
 
-### Common setting
-Provide some common settings for the plugin.
+### 通用设置
+提供插件全局的一些配置
 
 ![common setting.png](images/common_setting.png)
 
-#### Where: 
+#### 操作路径：
 - <kbd>Preferences(Settings)</kbd> > <kbd>Other Settings</kbd> > <kbd>RESTKit</kbd>
 - <kbd>RESTKit tool window</kbd> > <kbd>toolbar</kbd> > <kbd>setting</kbd> > <kbd>Common Setting</kbd>
 
-#### Supported web framework
-support Spring MVC and enabled by default. // todo
-默认支持Spring MVC，勾选即启用。若需要支持其他web框架的restful接口扫描，请参考: [RESTKit扩展](#)
+#### 支持扫描的Web框架
+默认支持Spring MVC，勾选即启用。若需要支持其他web框架的restful接口扫描，请参考：[插件扩展](#插件扩展)
 
 #### 请求配置
-- 请求超时: 设置请求超时时长，设置时长小于等于0时不超时
-- 启用保存请求日志: 默认不启用，保存路径为 `$PROJECT_DIR$/.idea/restkit/logs/*.log`
-- 启用参数库: 默认启用。设置后需重新打开当前项目
+- 请求超时：设置请求超时时长，设置时长小于等于0时不超时
+- 启用保存请求日志：默认不启用，保存路径为 `$PROJECT_DIR$/.idea/restkit/logs/*.log`
+- 启用参数库：默认启用。设置后需重新打开当前项目
 
 #### 请求脚本
-设置前置/后置请求脚本路径。当输入框为空时，可双击`Label`自动生成脚本，默认生成路径为: `$PROJECT_DIR$/.idea/restkit/xxx-request Script.js`
+设置前置/后置请求脚本路径。当输入框为空时，可双击`Label`自动生成脚本，默认生成路径为：`$PROJECT_DIR$/.idea/restkit/xxx-request Script.js`
 
 ![](images/script_setting.png)
 
@@ -139,12 +135,12 @@ support Spring MVC and enabled by default. // todo
 3. 若导出导入过程中出现异常，请参考`Event Log`中的提示。
 
 #### KEY-VALUE规则
-KEY、VALUE均为字符串，其中VALUE支持引用变量，支持如下: 
-- 直接引用变量: 引用当前环境变量中已存在的键值对，使用方式: `{{KEY}}`
-- 内置函数变量: 默认提供了内置函数，使用方式: `{{$functionName}}`
- - `{{$timestamp}}` 当前时间戳，ms
- - `{{$uuid}}` 生成UUID
-- 脚本变量: 点击<kbd>Script Variable</kbd>，在弹出框中编辑脚本变量。目前只支持Java语言，编写规则参考注释，无第三方库支持。使用方式: {{$methodName$}}
+KEY、VALUE均为字符串，其中VALUE支持引用变量，支持如下：
+- 直接引用变量：引用当前环境变量中已存在的键值对，使用方式：`{{KEY}}`
+- 内置函数变量：默认提供了内置函数，使用方式：`{{$functionName}}`
+  - `{{$timestamp}}` 当前时间戳，ms
+  - `{{$uuid}}` 生成UUID
+- 脚本变量：点击<kbd>Script Variable</kbd>，在弹出框中编辑脚本变量。目前只支持Java语言，编写规则参考注释，无第三方库支持。使用方式：{{$methodName$}}
 
 ```java
 public class RestKitScript {
@@ -210,9 +206,9 @@ public class RestKitScript {
 
 #### 前置脚本
 
-- 默认生成的前置脚本位于: `$PROJECT_DIR$/.idea/restkit/Pre-request Script.js`
+- 默认生成的前置脚本位于：`$PROJECT_DIR$/.idea/restkit/Pre-request Script.js`
 
-- 使用说明: 
+- 使用说明：
 ```js
 // You can use custom preset object request and environment, attributes are:
 // request attributes
@@ -227,7 +223,7 @@ public class RestKitScript {
 // See more usages in nashorn-users-guide: https://docs.oracle.com/en/java/javase/12/nashorn/nashorn-users-guide.pdf
 ```
 
-- 示例: 
+- 示例：
 ```js
 var env = environment;
 var baseUrl = env.baseUrl;
@@ -253,9 +249,9 @@ req.body = JSON.stringify({ reqBody: 'Hello world!' });
 ```
 
 #### 后置脚本
-- 默认生成的后置脚本位于: `$PROJECT_DIR$/.idea/restkit/Post-request Script.js`
+- 默认生成的后置脚本位于：`$PROJECT_DIR$/.idea/restkit/Post-request Script.js`
 
-- 使用说明: 
+- 使用说明：
 ```js
 // You can use custom preset object response and environment, attributes are:
 // response attributes
@@ -267,7 +263,7 @@ req.body = JSON.stringify({ reqBody: 'Hello world!' });
 // See more usages in nashorn-users-guide: https://docs.oracle.com/en/java/javase/12/nashorn/nashorn-users-guide.pdf
 ```
 
-- 示例: 
+- 示例：
 ```js
 var env = environment;
 var baseUrl = env.baseUrl;
@@ -291,7 +287,7 @@ if (statusCode != 200) {
 ### 插件扩展
 RESTKit从`2.0.0`版本开始提供了扩展点`io.github.newhoo.restkit.restful.ep.RestfulResolverProvider`。通过扩展点，你可以提供其他web框架restful接口的扫描方式，以实现在本插件中展示多样化的restful接口。
 
-使用示例: 
+使用示例：
 
 - plugin.xml
 ```xml
@@ -316,7 +312,7 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 }
 ```
 
-完整示例请参阅: [RESTKit-JAX-RS](https://github.com/huzunrong/RESTKit-JAX-RS)
+完整示例请参阅：[RESTKit-JAX-RS](https://github.com/huzunrong/RESTKit-JAX-RS)
 
 
 ### 其他使用
@@ -332,22 +328,15 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 ![](images/convert2json.png)
 
 
-## 关于
-本插件是作者致力于提升开发效率之作，只有实用常用的功能。源于RestfulToolkit，同时参考了Postman的常用功能，免费分享给大家使用，不用于商业用途。个人之力，难免有疏忽，如有使用问题，请反馈于我。
-
-如果你觉得本插件不错，请赏个好评吧，同时也欢迎提供宝贵的建议。🌟Star | [Ratings](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
-
-
-## Contact & Feedback
+## 联系 & 反馈
 [Issues](https://github.com/huzunrong/RESTKit-Doc/issues) | [Email](mailto:huzunrong@foxmail.com) | [Ratings & Previews](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
 
-> Note  
-> Please provide necessary information when you feedback: IDEA version, plugin version, exception content, recreation way(if can), desire, and etc.
+> 注意  
+> 反馈时请务必附上必要信息：Idea版本、插件版本、异常内容、复现方式(如果有)、诉求等。
 
 
 ## 支持作者
 如果觉得本插件不错，提升了你的开发效率，那么可以请作者喝杯咖啡吧～您的支持是鼓励我前行的动力，非常感谢。
 
 | ![微信](images/pay/wechat.JPG) | ![支付宝](images/pay/alipay.JPG) |
-| --- | --- |
 | --- | --- |
