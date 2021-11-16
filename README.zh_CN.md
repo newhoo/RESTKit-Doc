@@ -318,7 +318,7 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 ### 其他使用
 
 #### Java Method跳转到service tree
-光标移到Java中的restful接口，点击`小灯泡`或者按<kbd>⌥ ↩</kbd>
+光标移到Java中的restful接口，点击💡或者按<kbd>⌥ ↩</kbd>
 
 ![](images/intention.png)
 

@@ -11,7 +11,7 @@ If this plugin helps, please **🌟 Star** and [Rating](https://plugins.jetbrain
 
 ## Features
 - Restful service automatic scanning and display.
-  - Support searching service in Native Search Everywhere. ( use: <kbd>Ctrl \\</kbd> or <kbd>Ctrl Alt N</kbd> )
+  - Support searching service in native Search Everywhere. ( use: <kbd>Ctrl \\</kbd> or <kbd>Ctrl Alt N</kbd> )
   - Show restful service structure in tool window.
   - Service and Method jump to each other.
 - Powerful HTTP client：
@@ -21,7 +21,7 @@ If this plugin helps, please **🌟 Star** and [Rating](https://plugins.jetbrain
   - Parameter library：support display/save/delete in Headers/Params/Body tab.
   - Request script：support pre-request and post-script script.
   - HTTP packet display.
-- Request log：save request log whit HTTP packet format.
+- Request log：save request log with HTTP packet format.
 - Plugin extension：through this, you can scan restful service in other framework.
 - Language & Framework：
   - Support Spring MVC / SpringBoot by default.
@@ -41,8 +41,8 @@ Download plugin form <kbd>distributions/RESTKit-x.x.x.zip</kbd>, then <kbd>Prefe
 
 ## Usage
 
-### RESTKit Tool window
-Open project, find and open RESTKit at right window. RESTKit is composed of four parts: **Toolbar**、**service tree**、**http client**.
+### RESTKit Tool Window
+Open project, find and open RESTKit at right window. RESTKit is composed of four parts: **toolbar**、**service tree**、**http client**.
 
 ![tool window](images/tool_window.png)
 
@@ -55,14 +55,14 @@ Open project, find and open RESTKit at right window. RESTKit is composed of four
 
 ![](images/toolbar.png)
 
-#### service tree
+#### Service Tree
 - Display services by module.
 - Navigate to source when double-clicking in the service list.
 - Show context menu when right clicking.
 
 ![](images/tree.png)
 
-#### HTTP client
+#### HTTP Client
 - Environment: select the environment variable that has been added. preview current environment when hovering.
 - Method: http method, needn't select manually.
 - URL: http uri, needn't input manually. support placeholder, e.g. `{{baseUrl}}`.
@@ -84,7 +84,7 @@ Open project, find and open RESTKit at right window. RESTKit is composed of four
 ![search everywhere](images/search_everywhere.png)
 
 
-### Common setting
+### Common Setting
 Provide some common settings for the plugin.
 
 ![common setting.png](images/common_setting.png)
@@ -93,58 +93,58 @@ Provide some common settings for the plugin.
 - <kbd>Preferences(Settings)</kbd> > <kbd>Other Settings</kbd> > <kbd>RESTKit</kbd>
 - <kbd>RESTKit tool window</kbd> > <kbd>toolbar</kbd> > <kbd>setting</kbd> > <kbd>Common Setting</kbd>
 
-#### Supported web framework
-support Spring MVC and enabled by default. // todo
-默认支持Spring MVC，勾选即启用。若需要支持其他web框架的restful接口扫描，请参考: [RESTKit扩展](#)
+#### Supported Web Framework
+support Spring MVC and enabled by default. If you need support other framework restful apis, please see [RESTKit Extension](#Plugin Extension)
 
-#### 请求配置
-- 请求超时: 设置请求超时时长，设置时长小于等于0时不超时
-- 启用保存请求日志: 默认不启用，保存路径为 `$PROJECT_DIR$/.idea/restkit/logs/*.log`
-- 启用参数库: 默认启用。设置后需重新打开当前项目
+#### Request Config
+- Timeout: set request timeout. Never timeout when the value less than or equal 0.
+- Enable request log: default disabled. Log path `$PROJECT_DIR$/.idea/restkit/logs/*.log`.
+- Enable parameter library: default enabled. Need reopen current project after setting.
 
-#### 请求脚本
-设置前置/后置请求脚本路径。当输入框为空时，可双击`Label`自动生成脚本，默认生成路径为: `$PROJECT_DIR$/.idea/restkit/xxx-request Script.js`
+#### Request Script
+Set pre-request and post-request script path. If path is empty, you can double click `Label` before the input box to generate script like `$PROJECT_DIR$/.idea/restkit/xxx-request Script.js`.
 
 ![](images/script_setting.png)
 
-### 环境变量
-- 环境变量表示提前配置的一组或多组变量，包括`字面量变量`、`直接引用变量`、`内置函数变量`和`脚本变量`。
-- 可用于URL、Headers、Params、Body和请求脚本等。
-- 通过占位符方式来引用环境变量。
-- 每个项目的配置独立（Project级别），支持导入导出。
+### Environment Variable
+- Environment variables indicate multi-set variables in advance, including `Literal Variable`, `Direct reference variable`, `Built-in function variable` and `Script variable`.
+- Can be used for URL, Headers, Params, Body, request script and etc.
+- Using placeholder to reference environment variables.
+- Each project has isolated config(project level).
+- Support import and export.
 
 ![environment.png](images/environment.png)
 
-#### 设置
+#### Setting
 - <kbd>Preferences(Settings)</kbd> > <kbd>Other Settings</kbd> > <kbd>RESTKit</kbd> > <kbd>Environment</kbd>
 - <kbd>RESTKit tool window</kbd> > <kbd>toolbar</kbd> > <kbd>setting</kbd> > <kbd>Environment Setting</kbd>
 
-#### 添加
-1. 点击<kbd>Add</kbd>，输入唯一的环境变量组名，建议使用简短名称，比如`DEV`、`FAT`、`UAT`、`PRE`、`PRO`。
-2. 在当前组下的列表中增加/删除/移动变量键值对，可勾选是否启用。
-3. 默认会创建`baseUrl: http://localhost:8080`，用于替换URL输入框的`{{baseUrl}}`
-4. **VALUE**为字符串，可使用内置函数变量和脚本变量，参见下文说明。
+#### Add
+1. Click <kbd>Add</kbd> button, input unique and brief name such as `DEV`, `FAT`, `UAT`, `PRE`, `PRO`.
+2. Add/delete/move key-values in current env group, be enabled when selected checkbox.
+3. When create a env group, it will create a default key-value `baseUrl: http://localhost:8080` used for replacing `{{baseUrl}}` in URL input box.
+4. **VALUE** is string type, can use `Built-in function variable` and `Script variable`. See below for more.
 
 ![env_add.png](images/env_add.png)
 
-#### 复制
-从当前环境变量复制一份新的环境变量。点击<kbd>Copy</kbd>，输入唯一的环境变量组名，命名不能重复。
+#### Copy
+Copy a new environment group from current. Click <kbd>Copy</kbd> button, input unique and brief name.
 
-#### 删除
-删除当前环境变量组及内容，点击<kbd>Delete</kbd>。
+#### Delete
+Delete current environment group and content. Click <kbd>Delete</kbd> button.
 
-#### 导出&导入
-1. 点击<kbd>Export</kbd>将本页配置中的环境变量、环境脚本、全局请求头以JSON格式复制到剪切板。
-2. 在需要导入环境变量的项目中打开配置页面，点击<kbd>Import</kbd>。导入的环境变量会替换当前已配置的所有内容。
-3. 若导出导入过程中出现异常，请参考`Event Log`中的提示。
+#### Export & Import
+1. Click <kbd>Export</kbd> button to export environment variables, environment script, global headers to clipboard as JSON format.
+2. Click <kbd>Import</kbd> button to import environment config from clipboard in another project. Imported environments will replace all current content.
+3. See `Event Log` tips when exception occurred.
 
-#### KEY-VALUE规则
-KEY、VALUE均为字符串，其中VALUE支持引用变量，支持如下: 
-- 直接引用变量: 引用当前环境变量中已存在的键值对，使用方式: `{{KEY}}`
-- 内置函数变量: 默认提供了内置函数，使用方式: `{{$functionName}}`
- - `{{$timestamp}}` 当前时间戳，ms
- - `{{$uuid}}` 生成UUID
-- 脚本变量: 点击<kbd>Script Variable</kbd>，在弹出框中编辑脚本变量。目前只支持Java语言，编写规则参考注释，无第三方库支持。使用方式: {{$methodName$}}
+#### KEY-VALUE Rules
+KEY and VALUE are strings. VALUE supports reference variable such as:
+- Direct reference variable: reference to key-value of current group using `{{KEY}}`.
+- Built-in function variable: using `{{$functionName}}`. The default supplied variables are
+  - `{{$timestamp}}`: current timestamp, ms.
+  - `{{$uuid}}`: generate UUID randomly.
+- Script variable: click <kbd>Script Variable</kbd> button and edit content in dialog. Using `{{$methodName$}}`. Only Java language is supported, see rules in the comment, no third-party library supported.
 
 ```java
 public class RestKitScript {
@@ -162,57 +162,58 @@ public class RestKitScript {
 }
 ```
 
-#### 全局请求头
-配置当前项目中HTTP请求默认附带的请求头。
+#### Global Request Header
+
+Configure request headers that add to the HTTP request by default in current project.
 
 ![](images/global_header.png)
 
 
-### 参数库
-- 参数库是用于保存请求参数的仓库，支持保存Headers、Params和Body等参数。
-- 参数库存在多个，**每个参数库和URL、method 唯一绑定**。
-- 在对应编辑器右上角有两个图标<kbd>Save</kbd>和<kbd>List</kbd>，分别对应 **保存** 和 **选择** 参数，其中 **选择** 参数的图标会同时展示当前保存过的数量。
+### Parameter Library
+- The parameter library is a repository for saving the request parameters such as Headers, Params, and Body.
+- Every parameter library binds to URL and method uniquely.
+- Two icon buttons for **saving** and **selecting** parameters in the tab editor. The **List** icon will show saved parameter number.
 
 ![](images/parameter1.png)
 
-#### 保存参数
-保存当前编辑好的参数，以便留给将来使用。点击<kbd>Save</kbd>图标，输入唯一的名称。
+#### Save Parameter
+Save current parameter for future use. Click <kbd>Save</kbd> icon and input unique name.
 
 ![](images/parameter_add.png)
 
-#### 选择参数
-点击<kbd>List</kbd>图标，可以看到当前URL和method绑定的参数库。
+#### Select Parameter
+Click <kbd>List</kbd> icon and show the parameter library that bound to **URL and method**.
 
-- 鼠标Hover时会预览当前选择的参数
-- 单击鼠标左键，当前选择参数会替换对应编辑器的内容
+- Preview current selected parameters when the mouse hover.
+- When clicking left mouse button on list item, selected parameter will replace content in the editor.
 
 ![](images/parameter_list.png)
 
-#### 管理参数
-在参数列表中，每一行对应一个<kbd>Setting</kbd>图标，点击可对该参数重命名和删除。
+#### Manage Parameter
+Each parameter list item has a <kbd>Setting</kbd> icon, click to do more.
 
 ![](images/parameter_setting.png)
 
-#### 清空所有参数
-在当前项目中找到文件 `$PROJECT_DIR$/.idea/restkit/RESTKit_ParameterLibrary.xml`，删除即可。
+#### Clear Parameter
+Delete file at `$PROJECT_DIR$/.idea/restkit/RESTKit_ParameterLibrary.xml`.
 
 
-### 请求脚本
-在发送HTTP请求前后，可通过脚本对请求的前后内容进行操作，方便使用，如可以替换token、加密请求等。
+### Request Script
+Before and after sending an HTTP request, you can control the request content by using script conveniently. Such as replacing token, encrypt request, etc.
 
 > Note  
-> 该功能使用了Java Nashorn脚本引擎实现，该引擎计划在JDK11后移除，暂无替换实现。
+> This feature relies on the Java Nashorn script engine, which is scheduled to be removed after JDK11, no replacement temporarily.
 
-#### 设置脚本路径
-参考本文 `通用设置` > `请求脚本`
+#### Set Script Path
+Refer to this article: `Common Setting` > `Request Script`
 
 ![](images/script_setting.png)
 
-#### 前置脚本
+#### Pre-request Script
 
-- 默认生成的前置脚本位于: `$PROJECT_DIR$/.idea/restkit/Pre-request Script.js`
+- Default generated pre-request script path: `$PROJECT_DIR$/.idea/restkit/Pre-request Script.js`
 
-- 使用说明: 
+- Instruction:
 ```js
 // You can use custom preset object request and environment, attributes are:
 // request attributes
@@ -227,7 +228,7 @@ public class RestKitScript {
 // See more usages in nashorn-users-guide: https://docs.oracle.com/en/java/javase/12/nashorn/nashorn-users-guide.pdf
 ```
 
-- 示例: 
+- For example:
 ```js
 var env = environment;
 var baseUrl = env.baseUrl;
@@ -252,10 +253,10 @@ req.params.name = 'JavaNashorn';
 req.body = JSON.stringify({ reqBody: 'Hello world!' });
 ```
 
-#### 后置脚本
-- 默认生成的后置脚本位于: `$PROJECT_DIR$/.idea/restkit/Post-request Script.js`
+#### Post-request Script
+- Default generated post-request script path: `$PROJECT_DIR$/.idea/restkit/Post-request Script.js`
 
-- 使用说明: 
+- Instruction:
 ```js
 // You can use custom preset object response and environment, attributes are:
 // response attributes
@@ -267,7 +268,7 @@ req.body = JSON.stringify({ reqBody: 'Hello world!' });
 // See more usages in nashorn-users-guide: https://docs.oracle.com/en/java/javase/12/nashorn/nashorn-users-guide.pdf
 ```
 
-- 示例: 
+- For example:
 ```js
 var env = environment;
 var baseUrl = env.baseUrl;
@@ -283,15 +284,15 @@ if (statusCode != 200) {
 }
 ```
 
-#### HTTP请求执行过程
+#### HTTP Request Process
 
 ![](images/request_flow.png)
 
 
-### 插件扩展
-RESTKit从`2.0.0`版本开始提供了扩展点`io.github.newhoo.restkit.restful.ep.RestfulResolverProvider`。通过扩展点，你可以提供其他web框架restful接口的扫描方式，以实现在本插件中展示多样化的restful接口。
+### Plugin Extension
+RESTKit provided extension point `io.github.newhoo.restkit.restful.ep.RestfulResolverProvider` from version `2.0.0`. Through this， you can scan restful apis for other web framework. It's very useful.
 
-使用示例: 
+For example: 
 
 - plugin.xml
 ```xml
@@ -316,26 +317,20 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 }
 ```
 
-完整示例请参阅: [RESTKit-JAX-RS](https://github.com/huzunrong/RESTKit-JAX-RS)
+For complete examples, please see [RESTKit-JAX-RS](https://github.com/huzunrong/RESTKit-JAX-RS)
 
 
-### 其他使用
+### Other Usages
 
-#### Java Method跳转到service tree
-光标移到Java中的restful接口，点击`小灯泡`或者按<kbd>⌥ ↩</kbd>
+#### Java Method Navigate to Service Tree
+Move mouse to restful method in java source, then click 💡 or press shortcut key <kbd>⌥ ↩</kbd>.
 
 ![](images/intention.png)
 
-#### Java类生成JSON
-在需要生成的Java类名称上右键，在弹出的上下文菜单中选择 `Convert to JSON`
+#### Java Class Convert to JSON
+After right-click on the java class name, select `Convert to JSON` in the context menu.
 
 ![](images/convert2json.png)
-
-
-## 关于
-本插件是作者致力于提升开发效率之作，只有实用常用的功能。源于RestfulToolkit，同时参考了Postman的常用功能，免费分享给大家使用，不用于商业用途。个人之力，难免有疏忽，如有使用问题，请反馈于我。
-
-如果你觉得本插件不错，请赏个好评吧，同时也欢迎提供宝贵的建议。🌟Star | [Ratings](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
 
 
 ## Contact & Feedback
@@ -345,9 +340,8 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 > Please provide necessary information when you feedback: IDEA version, plugin version, exception content, recreation way(if can), desire, and etc.
 
 
-## 支持作者
-如果觉得本插件不错，提升了你的开发效率，那么可以请作者喝杯咖啡吧～您的支持是鼓励我前行的动力，非常感谢。
+## Sponsor
+If this plugin helps, you can take me a cup of coffee as you want. Thanks!
 
-| ![微信](images/pay/wechat.JPG) | ![支付宝](images/pay/alipay.JPG) |
-| --- | --- |
+| ![wechat](images/pay/wechat.JPG) | ![alipay](images/pay/alipay.JPG) |
 | --- | --- |
