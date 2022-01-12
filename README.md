@@ -1,6 +1,6 @@
 # RESTKit
 
-[简体中文](./README.zh_CN.md)
+[简体中文](./README.zh_CN.md) | [Gitee](https://gitee.com/newhoo/RESTKit)
 
 [RESTKit](https://plugins.jetbrains.com/plugin/14723-restkit) is a powerful toolkit for restful services development.
 
@@ -10,6 +10,7 @@ If this plugin helps, please **🌟 Star** and [Rating](https://plugins.jetbrain
 
 
 ## Features
+- More supported jetbrains ides.
 - Restful service automatic scanning and display.
   - Support searching service in native Search Everywhere. ( use: <kbd>Ctrl \\</kbd> or <kbd>Ctrl Alt N</kbd> )
   - Show restful service structure in tool window.
@@ -24,10 +25,8 @@ If this plugin helps, please **🌟 Star** and [Rating](https://plugins.jetbrain
 - Request log：save request log with HTTP packet format.
 - Plugin extension：through this, you can scan restful service in other framework.
 - Language & Framework：
-  - Support Spring MVC / SpringBoot by default.
-  - Support Java and Kotlin.
-- Other:
-  - Java class convert to JSON.
+  - Support api local store by default.
+  - Support Spring MVC / SpringBoot with java and kotlin in idea by default.
   
  
 ## Install
@@ -51,7 +50,10 @@ Open project, find and open RESTKit at right window. RESTKit is composed of four
 - Search: search service in search everywhere.
 - Filter: filter by HTTP method.
 - Scan library: whether scan with library.
+- Expand All.
+- Collapse All.
 - Setting：open setting view.
+- View document.
 
 ![](images/toolbar.png)
 
@@ -78,10 +80,12 @@ Open project, find and open RESTKit at right window. RESTKit is composed of four
 
 ### Search URL
 - Search everywhere: <kbd>Double Shift</kbd> or click **search icon**。
-- When selecting item in search everywhere(URL tab), clicking <kbd>Option</kbd> or <kbd>Alt</kbd> helps to jump to service tree item.
+  - When selecting item in search everywhere(URL tab), clicking <kbd>Option</kbd> or <kbd>Alt</kbd> helps to jump to service tree item.
+  - Enable show this module name in configuration.
 - Service tree: support input search when focus on service tree.
 
 ![search everywhere](images/search_everywhere.png)
+![search everywhere](images/search_everywhere_with_module.png)
 
 
 ### Common Setting
@@ -99,6 +103,7 @@ support Spring MVC and enabled by default. If you need support other framework r
 #### Request Config
 - Timeout: set request timeout. Never timeout when the value less than or equal 0.
 - Enable request log: default disabled. Log path `$PROJECT_DIR$/.idea/restkit/logs/*.log`.
+- Show module name in search everywhere
 - Enable parameter library: default enabled. Need reopen current project after setting.
 
 #### Request Script
@@ -169,6 +174,33 @@ Configure request headers that add to the HTTP request by default in current pro
 ![](images/global_header.png)
 
 
+### API Local Store
+- API Local Store used for manually saving API, an interface independently scanned. It's displayed as a Local module in Service Tree.
+- Every api should have unique key composed of url and method.
+- Enable by default. Disable in the setting.
+
+#### Display
+![](images/local_show.png)
+
+#### Add/Update
+Click【Save Api】at any editor's right menu in the http client. There will be a tip when api existed.
+
+![](images/local_save.png)
+
+![](images/local_save2.png)
+
+#### Delete
+Click in the right menu of local api item. 
+
+![](images/local_delete.png)
+
+#### Export/Import
+- Export: click in the right menu of root/module/api.
+- Import: click in the right menu of root
+
+![](images/local_export_import.png)
+
+
 ### Parameter Library
 - The parameter library is a repository for saving the request parameters such as Headers, Params, and Body.
 - Every parameter library binds to URL and method uniquely.
@@ -191,6 +223,9 @@ Click <kbd>List</kbd> icon and show the parameter library that bound to **URL an
 
 #### Manage Parameter
 Each parameter list item has a <kbd>Setting</kbd> icon, click to do more.
+- Replace: use current editor content to replace the item content.
+- Rename
+- Delete
 
 ![](images/parameter_setting.png)
 
@@ -290,7 +325,10 @@ if (statusCode != 200) {
 
 
 ### Plugin Extension
-RESTKit provided extension point `io.github.newhoo.restkit.restful.ep.RestfulResolverProvider` from version `2.0.0`. Through this， you can scan restful apis for other web framework. It's very useful.
+RESTKit provided extension points from version `2.0.1`. It's very useful.
+
+- `io.github.newhoo.restkit.restful.ep.RestfulResolverProvider` you can scan restful apis for other framework.
+- `io.github.newhoo.restkit.restful.ep.LanguageResolverProvider` operation for special language
 
 For example: 
 
@@ -302,10 +340,14 @@ For example:
 
     <extensions defaultExtensionNs="io.github.newhoo.restkit">
         <!-- your restful resolver implementation -->
+        <restfulResolver implementation="io.github.newhoo.restkit.feature.javaimpl.spring.SpringRequestResolver$SpringRequestResolverProvider"/>
+        <languageResolver implementation="io.github.newhoo.restkit.feature.javaimpl.language.JavaLanguageResolver$JavaLanguageResolverProvider"/>
+      
         <restfulResolver implementation="io.github.newhoo.restkit.ext.jaxrs.JaxrsResolverProvider"/>
     </extensions>
 </idea-plugin>
 ```
+
 - RestfulResolverProvider instance
 ```java
 public class JaxrsResolverProvider implements RestfulResolverProvider {
@@ -317,10 +359,38 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 }
 ```
 
-For complete examples, please see [RESTKit-JAX-RS](https://github.com/huzunrong/RESTKit-JAX-RS)
+- LanguageResolverProvider instance
+```java
+public class JavaLanguageResolver implements LanguageResolver {
+
+  @NotNull
+  @Override
+  public Language getLanguage() {
+    return JavaLanguage.INSTANCE;
+  }
+  
+  ...
+
+  public static class JavaLanguageResolverProvider implements LanguageResolverProvider {
+
+    @NotNull
+    @Override
+    public LanguageResolver createLanguageResolver(@NotNull Project project) {
+      return new JavaLanguageResolver();
+    }
+  }
+}
+```
+
+For complete examples, please see source code and [RESTKit-JAX-RS](https://github.com/newhoo/RESTKit-JAX-RS)
 
 
 ### Other Usages
+
+#### Microservice Feature
+Url navigate to service tree.
+
+![](images/microservice_goto.png)
 
 #### Java Method Navigate to Service Tree
 Move mouse to restful method in java source, then click 💡 or press shortcut key <kbd>⌥ ↩</kbd>.
@@ -332,9 +402,13 @@ After right-click on the java class name, select `Convert to JSON` in the contex
 
 ![](images/convert2json.png)
 
+#### Copy as curl
+Click【Copy as Curl】at any editor's right menu in the http client.
+
+![](images/copy_as_curl.png)
 
 ## Contact & Feedback
-[Issues](https://github.com/huzunrong/RESTKit-Doc/issues) | [Email](mailto:huzunrong@foxmail.com) | [Ratings & Previews](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
+[Issues](https://github.com/newhoo/RESTKit/issues) | [Email](mailto:huzunrong@foxmail.com) | [Ratings & Previews](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
 
 > Note  
 > Please provide necessary information when you feedback: IDEA version, plugin version, exception content, recreation way(if can), desire, and etc.
@@ -343,5 +417,4 @@ After right-click on the java class name, select `Convert to JSON` in the contex
 ## Sponsor
 If this plugin helps, you can take me a cup of coffee as you want. Thanks!
 
-| ![wechat](images/pay/wechat.JPG) | ![alipay](images/pay/alipay.JPG) |
-| --- | --- |
+![pay](images/pay.png)

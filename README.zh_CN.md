@@ -1,5 +1,7 @@
 # RESTKit
 
+[英文](./README.md) | [Gitee](https://gitee.com/newhoo/RESTKit)
+
 [RESTKit](https://plugins.jetbrains.com/plugin/14723-restkit) 是一套功能强大的 Restful 服务开发辅助工具集。
 
 本插件致力于提升开发效率之作，只有实用常用的功能。源于最初版本的RestfulToolkit，同时加入Postman的常用功能，丰富且完善的功能能极大地提高Idea开发的效率。免费分享给大家使用，不用于商业用途。个人之力，难免有疏忽，如有使用问题，请反馈于我。
@@ -7,6 +9,7 @@
 如果你觉得本插件不错，请赏个好评吧，同时也欢迎提供宝贵的建议。🌟 Star | [Ratings](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
 
 ## 功能
+- 支持更多的jetbrains产品，不仅仅是idea
 - Restful服务自动扫描与展示
     - 原生Search Everywhere支持restful URL搜索 ( <kbd>Ctrl \\</kbd> or <kbd>Ctrl Alt N</kbd> )
     - 窗口显示 Services tree
@@ -21,10 +24,8 @@
 - 日志保存：支持保存HTTP报文格式的请求日志；
 - 插件扩展：用户可实现其他框架的接口扫描；
 - 语言和框架：
-  - 默认支持 Spring 体系 (Spring MVC / Spring Boot)
-  - 支持 Java 和 Kotlin 语言
-- 其他:
-    - Java类生成JSON
+  - 默认支持本地API存储
+  - idea默认支持 Spring 体系 (Spring MVC / Spring Boot with Java or Kotlin)
 
 
 ## 安装
@@ -75,10 +76,12 @@
 
 ### 搜索URL
 - search everywhere: <kbd>Double Shift</kbd> or click **search icon**。
-- 在search everywhere中选中具体的URL后，按<kbd>Option</kbd>或<kbd>Alt</kbd>，可跳转到service tree中对应的URL。
+  - 在search everywhere中选中具体的URL后，按<kbd>Option</kbd>或<kbd>Alt</kbd>，可跳转到service tree中对应的URL。
+  - 在设置中设置是否展示module名称。
 - service tree：支持idea自身的输入搜索
 
 ![search everywhere](images/search_everywhere.png)
+![search everywhere](images/search_everywhere_with_module.png)
 
 
 ### 通用设置
@@ -96,6 +99,7 @@
 #### 请求配置
 - 请求超时：设置请求超时时长，设置时长小于等于0时不超时
 - 启用保存请求日志：默认不启用，保存路径为 `$PROJECT_DIR$/.idea/restkit/logs/*.log`
+- 在search everywhere中展示URL的module名称
 - 启用参数库：默认启用。设置后需重新打开当前项目
 
 #### 请求脚本
@@ -164,6 +168,33 @@ public class RestKitScript {
 ![](images/global_header.png)
 
 
+### 本地API库
+- 本地API库适用于手动保存API，独立于源码扫描出的接口，在service tree中展示为Local分组。
+- 根据url和method组合值作为唯一性判断
+- 默认启用，可在设置中关闭。
+
+#### 展示
+![](images/local_show.png)
+
+#### 添加/更新
+在Http Client的任意编辑器区域右键，点击【Save Api】。已存在api时会提示。
+
+![](images/local_save.png)
+
+![](images/local_save2.png)
+
+#### 删除
+在列表api上右键，删除
+
+![](images/local_delete.png)
+
+#### 导入/导出
+- 导出: 可导出所有/按模块/多选/单个，分别对应不同树节点右键菜单
+- 导入: 在树根结点右键菜单导入
+
+![](images/local_export_import.png)
+
+
 ### 参数库
 - 参数库是用于保存请求参数的仓库，支持保存Headers、Params和Body等参数。
 - 参数库存在多个，**每个参数库和URL、method 唯一绑定**。
@@ -186,6 +217,9 @@ public class RestKitScript {
 
 #### 管理参数
 在参数列表中，每一行对应一个<kbd>Setting</kbd>图标，点击可对该参数重命名和删除。
+- Replace: 使用当前编辑器中的内容来替换选中项
+- Rename
+- Delete
 
 ![](images/parameter_setting.png)
 
@@ -285,7 +319,9 @@ if (statusCode != 200) {
 
 
 ### 插件扩展
-RESTKit从`2.0.0`版本开始提供了扩展点`io.github.newhoo.restkit.restful.ep.RestfulResolverProvider`。通过扩展点，你可以提供其他web框架restful接口的扫描方式，以实现在本插件中展示多样化的restful接口。
+RESTKit从`2.0.1`版本开始提供了扩展点:
+- `io.github.newhoo.restkit.restful.ep.RestfulResolverProvider` 自定义扫描restful接口。
+- `io.github.newhoo.restkit.restful.ep.LanguageResolverProvider` 自定义语言相关的操作，具体参考源码说明。
 
 使用示例：
 
@@ -297,10 +333,14 @@ RESTKit从`2.0.0`版本开始提供了扩展点`io.github.newhoo.restkit.restful
 
     <extensions defaultExtensionNs="io.github.newhoo.restkit">
         <!-- your restful resolver implementation -->
+        <restfulResolver implementation="io.github.newhoo.restkit.feature.javaimpl.spring.SpringRequestResolver$SpringRequestResolverProvider"/>
+        <languageResolver implementation="io.github.newhoo.restkit.feature.javaimpl.language.JavaLanguageResolver$JavaLanguageResolverProvider"/>
+        
         <restfulResolver implementation="io.github.newhoo.restkit.ext.jaxrs.JaxrsResolverProvider"/>
     </extensions>
 </idea-plugin>
 ```
+
 - RestfulResolverProvider instance
 ```java
 public class JaxrsResolverProvider implements RestfulResolverProvider {
@@ -312,10 +352,38 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 }
 ```
 
-完整示例请参阅：[RESTKit-JAX-RS](https://github.com/huzunrong/RESTKit-JAX-RS)
+- LanguageResolverProvider instance
+```java
+public class JavaLanguageResolver implements LanguageResolver {
+
+  @NotNull
+  @Override
+  public Language getLanguage() {
+    return JavaLanguage.INSTANCE;
+  }
+  
+  ...
+
+  public static class JavaLanguageResolverProvider implements LanguageResolverProvider {
+
+    @NotNull
+    @Override
+    public LanguageResolver createLanguageResolver(@NotNull Project project) {
+      return new JavaLanguageResolver();
+    }
+  }
+}
+```
+
+完整示例请参阅：源码和[RESTKit-JAX-RS](https://github.com/newhoo/RESTKit-JAX-RS)
 
 
 ### 其他使用
+
+#### Microservice Feature
+Url navigate to service tree.
+
+![](images/microservice_goto.png)
 
 #### Java Method跳转到service tree
 光标移到Java中的restful接口，点击💡或者按<kbd>⌥ ↩</kbd>
@@ -327,16 +395,20 @@ public class JaxrsResolverProvider implements RestfulResolverProvider {
 
 ![](images/convert2json.png)
 
+#### 复制为curl
+在http client任意编辑区右键菜单中点击【Copy as Curl】
+
+![](images/copy_as_curl.png)
+
 
 ## 联系 & 反馈
-[Issues](https://github.com/huzunrong/RESTKit-Doc/issues) | [Email](mailto:huzunrong@foxmail.com) | [Ratings & Previews](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
+[Issues](https://github.com/newhoo/RESTKit/issues) | [Email](mailto:huzunrong@foxmail.com) | [Ratings & Previews](https://plugins.jetbrains.com/plugin/14723-restkit/reviews)
 
 > 注意  
 > 反馈时请务必附上必要信息：Idea版本、插件版本、异常内容、复现方式(如果有)、诉求等。
 
 
 ## 支持作者
-如果觉得本插件不错，提升了你的开发效率，那么可以请作者喝杯咖啡吧～您的支持是鼓励我前行的动力，非常感谢。
+如果觉得本插件不错，提升了你的开发效率，那么请作者喝杯咖啡吧～你的支持是鼓励我前行的动力，非常感谢。
 
-| ![微信](images/pay/wechat.JPG) | ![支付宝](images/pay/alipay.JPG) |
-| --- | --- |
+![pay](images/pay.png)
