@@ -1,4 +1,6 @@
-# RESTKit
+# RESTKit开源啦！https://github.com/newhoo/RESTKit
+
+## 本项目文档不再更新
 
 [英文](./README.md) | [Gitee](https://gitee.com/newhoo/RESTKit)
 
