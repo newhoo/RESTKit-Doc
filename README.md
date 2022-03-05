@@ -1,4 +1,6 @@
-# RESTKit
+# RESTKit is Open Source Now! See https://github.com/newhoo/RESTKit.
+
+## This document is no longer updated.
 
 [简体中文](./README.zh_CN.md) | [Gitee](https://gitee.com/newhoo/RESTKit)
 
@@ -416,5 +418,3 @@ Click【Copy as Curl】at any editor's right menu in the http client.
 
 ## Sponsor
 If this plugin helps, you can take me a cup of coffee as you want. Thanks!
-
-![pay](images/pay.png)
